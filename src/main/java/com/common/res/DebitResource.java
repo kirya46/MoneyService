@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
  */
 
 @Path("/debit")
-@Singleton
 public class DebitResource {
 
 

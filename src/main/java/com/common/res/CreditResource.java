@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response;
  */
 
 @Path("/credit")
-@Singleton
 public class CreditResource {
 
 
