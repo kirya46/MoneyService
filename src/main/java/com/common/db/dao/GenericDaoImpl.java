@@ -7,6 +7,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
+
 /**
  * Created by Kirill Stoianov on 06/09/17.
  */
@@ -14,42 +15,47 @@ import java.util.List;
 @Transactional
 public abstract class GenericDaoImpl<E, PK extends Serializable> implements GenericDao<E, PK> {
 
-    private Session currentSession;
-    public GenericDaoImpl() {
-        currentSession = HibernateUtil.getSessionFactory().openSession();
+    private Session getCuurentSesstion(){
+        return HibernateUtil.getSessionFactory().openSession();
     }
 
     @Override
     @Transactional
     public void persist(E persistentEntity) {
-        this.currentSession.persist(persistentEntity);
+        this.getCuurentSesstion().persist(persistentEntity);
     }
 
     @Override
     @Transactional
     @SuppressWarnings("unchecked")
     public PK save(E newInstance) {
-        this.currentSession.getTransaction().begin();
-        final PK save = (PK) this.currentSession.save(newInstance);
-        this.currentSession.getTransaction().commit();
+        final Session cuurentSesstion = this.getCuurentSesstion();
+        cuurentSesstion.getTransaction().begin();
+        final PK save = (PK) cuurentSesstion.save(newInstance);
+        cuurentSesstion.getTransaction().commit();
+        cuurentSesstion.close();
         return save;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public E findById(PK id) {
-        this.currentSession.getTransaction().begin();
-        final E e = (E) this.currentSession.get(getEntityClass(), id);
-        this.currentSession.getTransaction().commit();
+        final Session cuurentSesstion = this.getCuurentSesstion();
+        cuurentSesstion.getTransaction().begin();
+        final E e = (E) cuurentSesstion.get(getEntityClass(), id);
+        cuurentSesstion.getTransaction().commit();
+        cuurentSesstion.close();
         return e;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<E> findAll() {
-        this.currentSession.getTransaction().begin();
-        final List<E> list = this.currentSession.createCriteria(getEntityClass()).list();
-        this.currentSession.getTransaction().commit();
+        final Session cuurentSesstion = this.getCuurentSesstion();
+        cuurentSesstion.getTransaction().begin();
+        final List<E> list = cuurentSesstion.createCriteria(getEntityClass()).list();
+        cuurentSesstion.getTransaction().commit();
+        cuurentSesstion.close();
         return list;
     }
 
@@ -71,23 +77,30 @@ public abstract class GenericDaoImpl<E, PK extends Serializable> implements Gene
 
     @Override
     public void update(E transientObject) {
-        this.currentSession.getTransaction().begin();
-        this.currentSession.update(transientObject);
-        this.currentSession.getTransaction().commit();
+        final Session cuurentSesstion = this.getCuurentSesstion();
+        cuurentSesstion.getTransaction().begin();
+        cuurentSesstion.update(transientObject);
+        cuurentSesstion.getTransaction().commit();
+        cuurentSesstion.close();
     }
 
     @Override
     public void saveOrUpdate(E transientObject) {
-        this.currentSession.getTransaction().begin();
-        this.currentSession.saveOrUpdate(transientObject);
-        this.currentSession.getTransaction().commit();
+        final Session cuurentSesstion = this.getCuurentSesstion();
+        cuurentSesstion.getTransaction().begin();
+        cuurentSesstion.saveOrUpdate(transientObject);
+        cuurentSesstion.getTransaction().commit();
+        cuurentSesstion.close();
+
     }
 
     @Override
     public void delete(E persistentObject) {
-        this.currentSession.getTransaction().begin();
-        this.currentSession.delete(persistentObject);
-        this.currentSession.getTransaction().commit();
+        final Session cuurentSesstion = this.getCuurentSesstion();
+        cuurentSesstion.getTransaction().begin();
+        cuurentSesstion.delete(persistentObject);
+        cuurentSesstion.getTransaction().commit();
+        cuurentSesstion.close();
     }
 
     @Override
