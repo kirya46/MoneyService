@@ -12,7 +12,7 @@ Run script /projectFolder/sql/init.sql. Use PostgresSQL.
 
 `POST http://localhost:8080/rest/credit/{companyId}/{creditValue}` - return operation status.
 
-`POST http://localhost:8080/rest/{companyId}/{debitValue}` - return operation status.
+`POST http://localhost:8080/rest/debit/{companyId}/{debitValue}` - return operation status.
 
 **build project**
 
