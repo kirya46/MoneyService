@@ -4,7 +4,12 @@
 
 **init database**
 
-Run script /projectFolder/sql/init.sql. Use PostgresSQL.
+Run script **/projectFolder/sql/init.sql**. Use PostgresSQL.
+
+Configure hibernate  `/projectFolder/src/main/resources/hibernate.cfg.xml` 
+changet lines:
+
+
 
 **request methods**
 
